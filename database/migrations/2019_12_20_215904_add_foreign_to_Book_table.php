@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class AddForeignToBookTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('Books', function($table)
+        {
+            $table->foreign('aid')->references('aid')->on('Authors');
+            $table->foreign('cid')->references('cid')->on('Categories');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('Books', function($table)
+        {
+            $table->dropForeign('aid');
+            $table->dropForeign('cid');
+        });
+    }
+}
