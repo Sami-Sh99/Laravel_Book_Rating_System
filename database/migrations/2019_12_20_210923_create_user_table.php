@@ -20,6 +20,7 @@ class CreateUserTable extends Migration
             $table->string('password');     //TODO Add encryption
             $table->string('email')->unique();
             $table->date('DoB');
+            $table->string('country');
             $table->string('Language');
             $table->string('Hobbies');
             $table->timestamps();
