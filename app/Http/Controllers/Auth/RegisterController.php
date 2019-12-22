@@ -51,7 +51,7 @@ class RegisterController extends Controller
     {
         //dd($data);
         return Validator::make($data, [
-            'username' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -67,14 +67,9 @@ class RegisterController extends Controller
     {
         //dd($data);
         return User::create([
+            'username' => $data['username'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'country'=>$data['country'],
-            'DoB'=>$data['dob'],
-            'Fname'=>'sami',
-            'Lname'=>'sh',
-            'Language'=>'en',
-            'Hobbies'=>'',
         ]);
     }
 
@@ -85,8 +80,8 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
-        $country_list = DB::table('Countries')->get();
-        return view('auth.register')->with('country_list', $country_list);
+        //$country_list = DB::table('Countries')->get();
+        return view('auth.register');   //->with('country_list', $country_list);
     }
 
     /**
@@ -98,7 +93,6 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();
-        //dd($request);
         event(new Registered($user = $this->create($request->all())));
 
         $this->guard()->login($user);

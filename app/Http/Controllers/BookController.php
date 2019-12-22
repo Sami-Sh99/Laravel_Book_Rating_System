@@ -11,7 +11,7 @@ class BookController extends Controller
 {
     public function __construct()
     {
-     $this->middleware('auth:api')->except([ 'show','store']);
+     $this->middleware('auth')->except(['show']);
     }
 
       /**
@@ -21,9 +21,19 @@ class BookController extends Controller
      */
     public function index()
     {
-    //   return BookResource::collection(Book::with('ratings')->paginate(25));
-        dd(Auth::user());
-        return Book::all();
+        $books= Book::all();//->where('user_uid', auth()->user()->uid);
+        dd($books);
+
+        return view('books.index');
+    }
+          /**
+     * Display new book creation form
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {   
+        return view('books.create');
     }
   /**
      * Store a newly created resource in storage.
@@ -33,7 +43,39 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        return Book::create($request->all());
+      $this->validate($request, [
+        'title' => 'required|string|max:255',
+        'subtitle'=>'required|string|max:255',
+        'publisher'=>'required|string|max:255',
+        'cover_image' => 'required|image|nullable|max:1999'
+      ]);
+      // Handle File Upload
+      if($request->hasFile('cover_image')){
+        // Get filename with the extension
+        $filenameWithExt = $request->file('cover_image')->getClientOriginalName();
+        // Get just filename
+        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        // Get just ext
+        $extension = $request->file('cover_image')->getClientOriginalExtension();
+        // Filename to store
+        $fileNameToStore= $filename.'_'.time().'.'.$extension;
+        // Upload Image
+        $path = $request->file('cover_image')->storeAs('public/img/cover_images', $fileNameToStore);
+        } else {
+            $fileNameToStore = 'noimage.jpg';
+        }
+      // Create Book
+      $book = new Book;
+      $book->Title = $request->input('title');
+      $book->Subtitle = $request->input('subtitle');
+      $book->Publisher = $request->input('publisher');
+      $book->nb_of_pages = $request->input('nb_of_pages');
+      $book->price = $request->input('price');
+      $book->user_uid = auth()->user()->uid;
+      $book->cover_link = $fileNameToStore;
+      $book->save();
+      
+      return redirect('/home')->with('success', 'Book Created');
     }
     /**
      * Display the specified resource.
@@ -75,7 +117,7 @@ class BookController extends Controller
       if($request->user()->id != $book->uid){
         return response()->json(['error' => 'You can only delete your own books.'], 403);
       }
-      $article->delete();
-        return response()->json(null,204);
+      $book->delete();
+        return redirect('/home')->with('success', 'Book Deleted');
     }
 }
