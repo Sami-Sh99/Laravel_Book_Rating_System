@@ -21,6 +21,8 @@ class CreateUserTable extends Migration
             // $table->date('dob')->nullable();
             // $table->string('country')->nullable();
             // $table->string('language')->nullable();
+            $table->string('bio')->nullable();
+            $table->string('remember_token')->nullable();
             $table->string('photo_link')->nullable();
             $table->timestamps();
         });

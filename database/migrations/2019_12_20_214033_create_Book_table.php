@@ -23,7 +23,6 @@ class CreateBookTable extends Migration
             $table->date('DoP')->nullable();
             $table->integer('nb_of_pages')->nullable();
             $table->string('Origin_Language')->nullable();
-            $table->string('Hobbies')->nullable();
             $table->decimal('price',5,2)->nullable();
             $table->string('cover_link')->nullable();
             $table->integer('cid')->nullable();
