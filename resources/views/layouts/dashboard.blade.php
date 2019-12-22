@@ -46,7 +46,8 @@
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
                             <li><a href="#">{{ Auth::user()->username }}</a></li>
-
+                            <li><a href="#">Add Book</a></li>
+                            <li><a href="#">Settings</a></li>
                             <li>
                                 <a href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
@@ -62,11 +63,46 @@
                 </div>
             </div>
         </nav>
-
         @yield('content')
-    </div>
+        <footer class="footer">
+            <div class="row">
+            <div class="col-md-4">
+                <span class="copyright">Copyright &copy; Your Website 2018</span>
+            </div>
+            <div class="col-md-4">
+                <ul class="list-inline social-buttons">
+                <li class="list-inline-item">
+                    <a href="https://github.com/ELMORABITYounes">
+                            <i class="fa fa-github"></i>
+                        </a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="https://www.facebook.com/younes.elmorabit.92">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="https://www.linkedin.com/in/younes-elmorabit-2a162310b/">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <ul class="list-inline quicklinks">
+                <li class="list-inline-item">
+                    <a href="#">Privacy Policy</a>
+                </li>
+                <li class="list-inline-item">
+                    <a href="#">Terms of Use</a>
+                </li>
+                </ul>
+            </div>
+            </div>
+        </footer>
+  </div>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
-</body>
-</html>
+      <!-- Scripts -->
+      <script src="{{ asset('js/app.js') }}"></script>
+    </body>
+    </html>

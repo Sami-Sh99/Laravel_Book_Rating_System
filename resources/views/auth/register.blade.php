@@ -61,7 +61,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('country') ? ' has-error' : '' }}">
+                        {{-- <div class="form-group{{ $errors->has('country') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Country</label>
 
                             <div class="col-md-6">
@@ -73,21 +73,7 @@
                                     @endforeach
                                    </select>    
                             </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('dob') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Date of Birth</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="date" class="form-control" name="dob" required>
-
-                                @if ($errors->has('dob'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('dob') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
