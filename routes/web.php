@@ -30,4 +30,14 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+//User
+Route::get('/home', 'UserController@index')->name('home');
+Route::post('user/profile', 'UserController@profileUpdate');
+//Books
+Route::get('books', 'BookController@index');
+Route::get('books/new', 'BookController@create');
+Route::post('books/new', 'BookController@store');
+Route::get('books/{id}', 'BookController@show');
+Route::put('books/{id}', 'BookController@update');
+Route::get('books/d/{id}', 'BookController@destroy');

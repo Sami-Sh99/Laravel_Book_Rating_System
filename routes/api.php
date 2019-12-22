@@ -12,10 +12,3 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-
-Route::get('books', 'BookController@index');
-Route::get('books/{id}', 'BookController@show');
-Route::post('books', 'BookController@store');
-Route::put('books/{id}', 'BookController@update');
-Route::delete('books/{id}', 'BookController@delete');
