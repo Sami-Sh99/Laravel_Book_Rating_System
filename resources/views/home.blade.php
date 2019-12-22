@@ -5,8 +5,15 @@
         <div class="col-md-3">
           <div class="profile-sidebar position-fixed">
             <!-- SIDEBAR USERPIC -->
-            <div class="profile-userpic">
-              <img src={{ isset($img) ? $img : "\img\unknown.png" }} class="img-responsive" alt="">
+            <div class=" profile-userpic image-upload">
+              <form class="form-horizontal" method="POST" action="{{ url('user/profile') }}" enctype="multipart/form-data">
+              <label for="file-input">
+                <img src="/storage/img/profile/{{ Auth::user()->photo_link }}" class="img-responsive" alt="">
+              </label>
+            
+              <input id="file-input"style="display:none;" name="profile" onchange="javascript:this.form.submit();" type="file" />
+              {{ csrf_field() }}
+              </form>
             </div>
             <!-- END SIDEBAR USERPIC -->
             <!-- SIDEBAR USER TITLE -->
@@ -55,24 +62,18 @@
         </div>
         <div class="col-md-9">
           <div class="profile-content">
-            <div class="h1">My Books<a class="btn btn-success btn-lg pull-right m-5">New Book</a></div>
-            
+            <div class="h1">My Books<a href="{{ url('/books/new') }}" class="btn btn-success btn-lg pull-right m-5">New Book</a></div>
+            <hr>
+            @foreach($books as $book)
               <div class="media">
-                <img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="https://picsum.photos/300/300" alt="image">
+              <img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="/storage/img/cover_images/{{$book->cover_link}}" alt="image">
                 <div class="media-body">
-                    <h3 class="media-title">Book 1 <a class="btn btn-danger pull-right m-5">Delete</a></h3>
-                    <div class="meta mb-1">hello world, 20 pages, rating 3.5</div>
+                <h3 class="media-title">{{$book->Title}}<a href="{{ url('/books/d/')}}{{'/'.$book->bid}}" class="btn btn-danger pull-right m-5">Delete</a></h3>
+                    <div class="meta mb-1">{{$book->Subtitle}}, {{$book->nb_of_pages ? $book->nb_of_pages.' pages, ' : '' }} {{$book->price ? $book->price.' $, ' : '' }}</div>
                     <div class="media-intro"></div>
                 </div>
               </div>
-
-              <div class="media">
-                <img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="https://picsum.photos/301/300" alt="image">
-                <div class="media-body">
-                    <h3 class="media-title">Book 2 <a class="btn btn-danger pull-right m-5">Delete</a></h3>
-                    <div class="meta mb-1">hello world, 20 pages, rating 3.5</div>
-                    <div class="media-intro"></div>
-                </div>
+            @endforeach
               </div>
 
               

@@ -192,7 +192,7 @@ html, body {
       display: block;
   }
   .media{
-      background-color: gold;
+      /* background-color: gold; */
       margin:10px 0px;
     }
   .media img{
@@ -206,4 +206,10 @@ html, body {
   .btn-danger{
       margin-right: 10px;
   }
-  
+  .mb10{
+    margin-bottom: 1em;
+  }
+
+  .image-upload>input {
+    display: none;
+  }
