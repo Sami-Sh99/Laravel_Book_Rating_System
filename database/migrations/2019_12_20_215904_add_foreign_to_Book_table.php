@@ -15,7 +15,7 @@ class AddForeignToBookTable extends Migration
     {
         Schema::table('Books', function($table)
         {
-            $table->foreign('aid')->references('aid')->on('Authors');
+            $table->foreign('user_uid')->references('uid')->on('Users');
             $table->foreign('cid')->references('cid')->on('Categories');
         });
     }
@@ -29,7 +29,7 @@ class AddForeignToBookTable extends Migration
     {
         Schema::table('Books', function($table)
         {
-            $table->dropForeign('aid');
+            $table->dropForeign('user_uid');
             $table->dropForeign('cid');
         });
     }

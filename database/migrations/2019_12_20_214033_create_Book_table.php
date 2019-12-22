@@ -20,14 +20,14 @@ class CreateBookTable extends Migration
             $table->string('Publisher');
             $table->string('Publisher_Link')->nullable();
             $table->string('ISBN')->unique();
-            $table->date('DoP');
-            $table->integer('nb_of_pages');
-            $table->string('Origin_Language');
-            $table->string('Hobbies');
-            $table->decimal('price',5,2);
-            $table->string('cover_link');
-            $table->integer('cid');
-            $table->integer('aid');
+            $table->date('DoP')->nullable();
+            $table->integer('nb_of_pages')->nullable();
+            $table->string('Origin_Language')->nullable();
+            $table->string('Hobbies')->nullable();
+            $table->decimal('price',5,2)->nullable();
+            $table->string('cover_link')->nullable();
+            $table->integer('cid')->nullable();
+            $table->integer('user_uid');
             $table->timestamps();
         });
     }

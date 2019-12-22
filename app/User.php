@@ -16,7 +16,8 @@ class User extends Authenticatable
      */
     protected $primaryKey = 'uid';
     protected $fillable = [
-        'username', 'email', 'password','country','DoB','Fname','Lname','Language','Hobbies',
+        'username', 'email', 'password',
+        // 'country','DoB','Fname','Lname','Language','Hobbies',
     ];
 
     /**
@@ -27,4 +28,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    public function books()
+    {
+        return $this->hasMany('App\Book');
+    }
 }

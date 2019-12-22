@@ -11,4 +11,9 @@ class Book extends Model
     protected $guarded = [
         'bid', 'aid','updated_at','created_at',
     ];
+
+    public function books()
+    {
+        return $this->belongsTo('App\User');
+    }
 }
