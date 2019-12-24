@@ -8,7 +8,9 @@
             <div class=" profile-userpic image-upload">
               <form class="form-horizontal" method="POST" action="{{ url('user/profile') }}" enctype="multipart/form-data">
               <label for="file-input">
-                <img src="/storage/img/profile/{{ Auth::user()->photo_link }}" class="img-responsive" alt="">
+                <a  data-toggle="tooltip" data-placement="bottom" title="Change Picture">
+                  <img src="/storage/img/profile/{{ Auth::user()->photo_link }}" class="img-responsive" alt="">
+                </a>
               </label>
             
               <input id="file-input"style="display:none;" name="profile" onchange="javascript:this.form.submit();" type="file" />
@@ -22,14 +24,13 @@
                 {{ Auth::user()->username }}
               </div>
               <div class="profile-usertitle-job">
-                {{ isset($job) ? $job : "Newbie" }}
+                {{ Auth::user()->job ? Auth::user()->job : "Newbie" }}
               </div>
             </div>
             <!-- END SIDEBAR USER TITLE -->
             <!-- SIDEBAR BUTTONS -->
             <div class="profile-userbuttons">
-              <button type="button" class="btn btn-success btn-sm">Follow</button>
-              <button type="button" class="btn btn-danger btn-sm">Message</button>
+              {{ Auth::user()->bio ? Auth::user()->bio : "" }}
             </div>
             <!-- END SIDEBAR BUTTONS -->
             <!-- SIDEBAR MENU -->
@@ -41,15 +42,15 @@
                               Overview </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="https://codepen.io/jasondavis/pen/jVRwaG?editors=1000">
+                <a class="nav-link" href="{{url('setting')}}">
                               <i class="fa fa-user"></i>
                               Account Settings </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                   <a class="nav-link" href="#" target="_blank">
                               <i class="fa fa-check"></i>
                               Tasks </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                   <a class="nav-link" href="#">
                               <i class="fa fa-flag"></i>
@@ -62,7 +63,7 @@
         </div>
         <div class="col-md-9">
           <div class="profile-content">
-            <div class="h1">My Books<a href="{{ url('/books/new') }}" class="btn btn-success btn-lg pull-right m-5">New Book</a></div>
+            <div class="h1">My Books<a href="{{ url('/books/new') }}" class="btn btn-success btn-lg pull-right m-5 dbtn">New Book</a></div>
             <hr>
             @foreach($books as $book)
               <div class="media">
@@ -76,9 +77,14 @@
             @endforeach
               </div>
 
-              
+
           </div>
         </div>
       </div>
     </div>
+    <script>
+      $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();   
+      });
+      </script>
 @endsection()

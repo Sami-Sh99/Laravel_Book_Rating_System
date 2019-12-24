@@ -96,7 +96,7 @@ html, body {
   .profile-userpic img {
     float: none;
     display:block;
-      margin:auto;
+     margin:auto;
     width: 50%;
     height: 50%;
     -webkit-border-radius: 50% !important;
@@ -212,4 +212,13 @@ html, body {
 
   .image-upload>input {
     display: none;
+  }
+  #tooltip{
+    color: brown;
+  }
+
+  @media only screen and (min-width: 600px) {
+    .dbtn{
+      float: right;
+    } 
   }
