@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 // use App\Http\Resources\BookResource;
@@ -85,7 +86,12 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        return Book::find($id);
+      $book= Book::find($id);
+      if(!$book)
+        abort(404);
+      //$author=$book->users;
+      $user=User::find($book->user_uid)->username;
+      return view('books.book')->with('data',[$book,$user]);
     }
 
     /**
