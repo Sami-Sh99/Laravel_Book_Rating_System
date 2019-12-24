@@ -33,7 +33,10 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 //User
 Route::get('/home', 'UserController@index')->name('home');
+Route::get('/setting', 'UserController@setting');
+Route::post('/user/update', 'UserController@update');
 Route::post('user/profile', 'UserController@profileUpdate');
+
 //Books
 Route::get('books', 'BookController@index');
 Route::get('books/new', 'BookController@create');

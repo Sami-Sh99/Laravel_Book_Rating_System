@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use DB;
 
 class UserController extends Controller
 {
@@ -50,11 +51,55 @@ class UserController extends Controller
         } else {
             $fileNameToStore = 'unknown.png';
         }
-      // Create Book
+
       $user = auth()->user();
       $user->photo_link = $fileNameToStore;
       $user->save();
       
       return redirect('/home')->with('success', 'Profile picture changed');
     }
+
+        /**
+     * Show User's settings.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function setting()
+    { 
+        $user_name=auth()->user()->username;
+        $bio=auth()->user()->bio;
+        $current_job=auth()->user()->job;
+        $job=DB::table('Jobs')->get();
+        // dd($job);
+        return view('setting')->with('data', [$user_name, $bio, $current_job, $job]);
+    }
+    /**
+     * Update User's profile Image.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request)
+    {
+      if(auth()->user()->username == $request->input('username')){
+        $this->validate($request, [
+          'bio'=>'string|max:255',
+        ]);
+      }else{
+        $this->validate($request, [
+          'bio'=>'string|max:255',
+          'username'=>'string|max:255|unique:users'
+        ]);
+      }
+
+      $user = auth()->user();
+      $user->bio=$request->input('bio');
+      $user->job=$request->input('job');
+      $user->username=$request->input('username');
+      $user->save();
+      
+      return redirect('/home')->with('success', 'Profile picture changed');
+    }
+
 }

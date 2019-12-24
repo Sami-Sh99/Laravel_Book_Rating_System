@@ -22,6 +22,7 @@ class CreateUserTable extends Migration
             // $table->string('country')->nullable();
             // $table->string('language')->nullable();
             $table->string('bio')->nullable();
+            $table->string('job')->nullable();
             $table->string('remember_token')->nullable();
             $table->string('photo_link')->nullable();
             $table->timestamps();
