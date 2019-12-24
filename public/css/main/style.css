@@ -317,7 +317,7 @@ footer .wrap-bottom {}
     display: inline-block;
     padding: 10px;
     border-radius: 5px; /*optional*/
-    color: #aaa;
+    color: #fff;
     font-size: 13px;
 }
 
@@ -458,4 +458,8 @@ textarea {display:block;width:90%;height:200px; border-radius:4px;-webkit-border
 	cursor: pointer;
 	width: 110px;
 	outline: none;
-	}
+    }
+    
+.modal-dialog{
+    color:#777;
+}

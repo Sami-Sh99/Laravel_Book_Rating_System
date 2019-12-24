@@ -7,7 +7,9 @@
 <section id="container">
     @php
     $book=$data[0];
-    $user=$data[1];
+	$user=$data[1];
+	$rate=$data[2];
+	$Comments=$data[3];
     @endphp
 	<div class="wrap-container zerogrid">
 		<div id="main-content" class="col-2-3">
@@ -33,55 +35,104 @@
                                     
                                     @if(Auth::user())
                                     <li>
-                                        <a class="button bt1" disabled href="#">Rate</a>
-                                        <a class="button bt1" href="#">Comment</a>
+										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Rate" data-whatever="@mdo">Rate</button>
+										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Comment" data-whatever="@mdo">Comment</button>
                                     </li>
-                                    @endif
-                                    <li class="star"><h1 class="bh1"><b>Rate:2.5</b></h1></li>
+									@endif
+									{{-- //TODO Dynamic Rating --}}
+								<li><h1 class="bh1"><b>Rate: {{$rate}}</b></h1></li>
 								</ul>
 							</div>
 						</div>
 						<div class="clear"></div>
 					</div>
-					<div class="art-content">
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy 
-						eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
-						At vero eos et accusam et justo duo dolores et ea rebum. Consetetur sadipscing elitr, 
-						sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
-						sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>
-						<img src="images/0.jpg" />
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy 
-						eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
-						At vero eos et accusam et justo duo dolores et ea rebum. Consetetur sadipscing elitr, 
-						sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
-						sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>
-						<blockquote><p>Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet vultatup duista.</p></blockquote>
-						<img src="images/17.jpg" />
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy 
-						eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
-						At vero eos et accusam et justo duo dolores et ea rebum. Consetetur sadipscing elitr, 
-						sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,aaszx asqr amet vultatup duista.justo duo dolores et ea rebum</p>
-						<div class="note">
-						  <ol>
-							<li>Lorem ipsum</li>
-							<li>Sit amet vultatup nonumy</li>
-							<li>Duista sed diam</li>
-						  </ol>
-						  <div class="clear"></div>
-						</div>
-						<img src="images/16.jpg" />
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy 
-						eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
-						At vero eos et accusam et justo duo dolores et ea rebum. Consetetur sadipscing elitr, 
-						sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
-						sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy 
-						eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
-						At vero eos et accusam et justo duo dolores et ea rebum. Consetetur sadipscing elitr, 
-						sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
-						sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>
-						<div class="clear"></div>
-					</div>
 				</article>
+				<div class="row bootstrap snippets">
+					<div class="col-md-12 col-sm-12">
+						<div class="comment-wrapper">
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									Comment panel
+								</div>
+								<div class="panel-body">
+									<ul class="media-list">
+										@foreach($Comments as $comment)
+										<li class="media">
+											<a href="#" class="pull-left">
+												<img src="/storage/img/profile/{{$comment[1]}}" alt="" class="img-circle">
+											</a>
+											<div class="media-body">
+												<span class="text-muted pull-right">
+													{{-- <small class="text-muted">30 min ago</small> --}}
+												</span>
+												<strong class="text-success">@ {{$comment[0]}}</strong>
+												<p style="color:#777">
+													{{$comment[2]}}
+												</p>
+											</div>
+										</li>
+										@endforeach
+									</ul>
+								</div>
+							</div>
+						</div>
+				
+					</div>
+				</div>
 
 @endsection
+
+<div class="modal fade" id="Comment" tabindex="-1" role="dialog" aria-labelledby="CommentLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="CommentLabel">New Comment</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+		<form action="{{url('/comment/'.$book->bid.'/'.$book->user_uid)}}" method="POST">
+			{{ csrf_field() }}
+			<div class="form-group">
+			  <label for="message-text" class="col-form-label">Comment</label>
+			  <textarea class="form-control"name="message-text" id="message-text"></textarea>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary">Submit Comment</button>
+			</div>
+		  </form>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+  <div class="modal fade" id="Rate" tabindex="-1" role="dialog" aria-labelledby="RateLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="RateLabel">Rate</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+		<form action="{{url('/rate/'.$book->bid.'/'.$book->user_uid)}}" method="POST">
+			{{ csrf_field() }}
+			<div class="form-group">
+				<label class="radio-inline"><input type="radio" value="1" name="optradio">1</label>
+				<label class="radio-inline"><input type="radio" value="2" name="optradio">2</label>
+				<label class="radio-inline"><input type="radio" value="3" name="optradio"checked>3</label>
+				<label class="radio-inline"><input type="radio" value="4" name="optradio">4</label>
+				<label class="radio-inline"><input type="radio" value="5" name="optradio">5</label>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary">Submit Rating</button>
+			</div>
+		  </form>
+		</div>
+	  </div>
+	</div>
+  </div>
