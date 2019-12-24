@@ -42,3 +42,8 @@ Route::post('books/new', 'BookController@store');
 Route::get('books/{id}', 'BookController@show');
 Route::put('books/{id}', 'BookController@update');
 Route::get('books/d/{id}', 'BookController@destroy');
+
+//Comment
+Route::post('comment/{bid}/{uid}', 'BookController@comment');
+//Rate
+Route::post('rate/{bid}/{uid}', 'BookController@rate');

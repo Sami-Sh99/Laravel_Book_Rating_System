@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use App\User;
+use App\Rate;
+use App\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 // use App\Http\Resources\BookResource;
@@ -90,8 +92,17 @@ class BookController extends Controller
       if(!$book)
         abort(404);
       //$author=$book->users;
+      $rates=Rate::where('bid', '=', $id)    
+                    ->groupBy('rate')
+                    ->avg('rate');
       $user=User::find($book->user_uid)->username;
-      return view('books.book')->with('data',[$book,$user]);
+      $comments=Comment::where('bid', '=', $id)->get();
+      $content=array();
+      foreach($comments as $x){
+        $userC=User::find($x->uid);
+        array_push($content,[$userC->username,$userC->photo_link, $x->comment ]);
+      }
+      return view('books.book')->with('data',[$book,$user,$rates,$content]);
     }
 
     /**
@@ -126,4 +137,55 @@ class BookController extends Controller
       $book->delete();
         return redirect('/home')->with('success', 'Book Deleted');
     }
+
+        /**
+     * Add rating.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function rate(Request $request, $bid, $uid)
+    {
+      $x=false;
+      $rate=  Rate::where('uid', '=', $uid)
+              ->where('bid', '=', $bid)
+              ->first();
+      if(!$rate){
+        $rate= new Rate;
+        $rate->uid=$uid;
+        $rate->bid=$bid;
+        $rate->rate=$request->input('optradio');
+         $rate->save(); 
+      }else{
+        $rate=  Rate::where('uid', '=', $uid)
+              ->where('bid', '=', $bid)
+              ->update(['rate' => $request->input('optradio')]);
+      }
+      return redirect('/books/'.$bid);
+
+    }
+
+            /**
+     * Add rating.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function Comment(Request $request, $bid, $uid)
+    {
+      $rate=  Comment::where('uid', '=', $uid)
+              ->where('bid', '=', $bid)
+              ->first();
+      if(!$rate)
+        $rate= new Comment;
+        $rate->uid=$uid;
+        $rate->bid=$bid;
+        // dd($request->all());
+        $rate->comment=$request->input('message-text');
+        // dd($rate);
+        $rate->save();
+      return redirect('/books/'.$bid);
+
+    }
+
 }
