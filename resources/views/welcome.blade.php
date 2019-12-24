@@ -1,95 +1,108 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
+@section('content')
+    <link rel="stylesheet" href="{{ asset('css/main/zerogrid.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/main/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/main/responsive.css') }}">
+    
+<!--////////////////////////////////////Container-->
+<section id="container">
+	<div class="wrap-container zerogrid">
+		<div id="main-content" class="col-2-3">
+			<div class="wrap-content">
+				<div class="movie">
+					<div class="row type">
+						<div class="title">
+							<center><h2>Books</h2></center>
+						</div>
+						{{-- <ul>
+							<li>
+								<select>
+									<option value="audi" selected>Type</option>
+									<option value="volvo">Text Text</option>
+									<option value="saab">Text Text</option>
+									<option value="volvo">Text Text</option>
+									<option value="saab">Text Text</option>
+									<option value="volvo">Text Text</option>
+									<option value="saab">Text Text</option>
+									<option value="volvo">Text Text</option>
+									<option value="saab">Text Text</option>
+									<option value="volvo">Text Text</option>
+									<option value="saab">Text Text</option>
+								</select>
+							</li>
+							<li><a class="button " href="#">Search</a></li>
+						</ul> --}}
+					</div>
+					<div class="row">
+						@foreach($Books as $Book)
+						<div class="col-1-4">
+							<div class="wrap-col">
+								<div class="post">
+									<div class="view effect">  
+									 <img class="thumb" src="/storage/img/cover_images/{{ $Book->cover_link }}"  />
+									  <div class="mask">  
+									  <a href="{{url('books/'.$Book->bid)}}" class="info" title="Full Image"><img src="/storage/img/cover_images/{{ $Book->cover_link }}" /></a>  
+									  </div>    
+									</div>
+										<div class="clear"></div>
+										<a href="{{url('books/'.$Book->bid)}}"><h3>{{$Book->Title}}</h3></a>
+										<span>{{$Book->Subtitle}}</span>
+									</div>
+								</div>
+							</div>
+						@endforeach
+					{{-- <center><div class="pagination">
+						<a href="#" class="page gradient">first</a><a
+						href="#" class="page gradient">2</a><a href="#"
+						class="page gradient">3</a><span class=
+						"page active">4</span><a href="#" class=
+						"page gradient">5</a><a href="#" class=
+						"page gradient">6</a><a href="#" class=
+						"page gradient">last</a>
+					</div></center> --}}
+				</div>
+			</div>
+		</div>
+		</div>
+		<div id="sidebar" class="col-1-3">
+			<div class="wrap-sidebar">
+				<!---- Start Widget ---->
+				<div class="widget wid-new-updates">
+					<div class="wid-header">
+						<h5>Hot Updates !</h5>
+					</div>
+					<div class="wid-content">
+						<ul>
+						<li><a href="#">Mad Max: Fury Road</a><span><img src="/storage/img/hot.png" /></span></li>
+						<li><a href="#">The Age of Adaline</a><span><img src="/storage/img/hot.png" /></span></li>
+						<li><a href="#">Pound of Flesh</a><span><img src="/storage/img/hot.png" /></span></li>
+						<li><a href="#">Bloodbath Island</a><span><img src="/storage/img/hot.png" /></span></li>
+						<li><a href="#">Pound of Flesh</a><span><img src="/storage/img/hot.png" /></span></li>
+						</ul>
+					</div>
+				</div>
+				<!---- Start Widget ---->
+				<div class="widget wid-tag">
+					<div class="wid-header">
+						<h5>Tags</h5>
+					</div>
+					<div class="wid-content">
+						<ul>
+						<li><a href="#">Anthology</a></li>
+						<li><a href="#">Classic</a></li>
+						<li><a href="#">Comic and Graphic Novel</a></li>
+						<li><a href="#">Crime and Detective</a></li>
+						<li><a href="#">Drama</a></li>
+						<li><a href="#">Fable</a></li>
+						<li><a href="#">Fairy Tale</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
-                    @endif
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
-        </div>
-    </body>
-</html>
+<script src="{{ asset('css/main/js/css3-mediaqueries.js') }}"></script>
+<script src="{{ asset('css/main/js/jquery.min.js') }}"></script>
+@endsection()
